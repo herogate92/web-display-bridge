@@ -1,0 +1,11 @@
+node_modules/
+.gitdata/
+dist/
+public/*.js
+native/bin/
+native/obj/
+native/publish/
+release/
+.cache/
+artifacts/
+*.log

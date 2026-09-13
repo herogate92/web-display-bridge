@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; media-src 'self' blob:; base-uri 'none'; form-action 'none'">
+  <title>WebDisplay Bridge</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="host">
+<main>
+  <section class="status"><span id="state-dot" class="dot"></span><span id="status" role="status">가상 모니터를 확인하고 있습니다…</span></section>
+  <p id="error" class="error" role="alert" hidden></p>
+  <section id="recovery" class="warning" hidden>이전 화면 설정을 복구해야 합니다. <button id="recover">전체 화면 복구</button></section>
+
+  <section class="card monitor-toolbar">
+    <label>가상 모니터 수
+      <select id="monitor-count"><option>1</option><option>2</option><option>3</option><option>4</option></select>
+    </label>
+    <button id="apply-count" class="primary">모니터 수 적용</button>
+    <label>PC의 Wi-Fi / LAN 주소<select id="network"></select></label>
+    <button id="refresh">다시 확인</button>
+    <button id="stop-all">전체 연결 종료</button>
+  </section>
+
+  <div id="driver-warning" class="warning" hidden>가상 모니터가 없습니다. 공식 드라이버를 설치하세요. <button id="driver-help">공식 다운로드</button></div>
+  <section id="sessions" class="session-list"></section>
+
+  <details class="card help-card">
+    <summary>연결이 안 되나요?</summary>
+    <p>모바일 기기에서 PC와 같은 Wi-Fi를 사용하고, Windows 방화벽의 개인 네트워크에서 WebDisplay Bridge를 허용하세요.</p>
+    <p>각 QR과 4자리 번호는 해당 가상 화면 한 대에만 연결됩니다.</p>
+    <pre id="display-info"></pre>
+  </details>
+  <footer>소리는 PC에서 재생됩니다. Windows 디스플레이 설정에서 가상 화면 위치를 원하는 곳으로 옮길 수 있습니다.</footer>
+</main>
+<script src="host.js"></script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+:root {
+  color-scheme: dark;
+  font-family: Segoe UI, "Malgun Gothic", sans-serif;
+  background: #111923;
+  color: #edf3fa;
+  line-height: 1.5;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { max-width: 1100px; margin: auto; padding: 36px; }
+h1 { font-size: 38px; line-height: 1.2; margin: 12px 0; }
+h2 { font-size: 18px; margin: 0 0 14px; }
+p { margin: 10px 0; }
+.muted, footer { color: #9eafc0; }
+.small { font-size: 12px; }
+
+.host main { max-width: 1180px; padding: 18px 22px 24px; }
+.monitor-toolbar {
+  display: grid;
+  grid-template-columns: 150px auto minmax(240px, 1fr) auto auto;
+  gap: 10px;
+  align-items: end;
+  margin: 0 0 16px;
+}
+.session-list { display: grid; gap: 16px; }
+.session-card { margin: 0; padding: 18px; }
+.session-card.live { border-color: #5cae91; box-shadow: 0 0 0 1px #5cae9140; }
+.session-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+.session-heading h2 { margin: 0; }
+.session-state { color: #a9bdcf; font-size: 12px; text-align: right; }
+.session-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(230px, .7fr);
+  gap: 18px;
+  align-items: stretch;
+}
+.session-settings .fields { grid-template-columns: 1.3fr .8fr 1fr; }
+.session-settings .custom-mode .fields { grid-template-columns: repeat(3, 1fr); }
+.session-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #314050;
+}
+.session-metrics span { display: block; color: #9eafc0; font-size: 11px; }
+.session-metrics strong { font-size: 14px; overflow-wrap: anywhere; }
+.help-card { margin-top: 16px; }
+.host-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(280px, .75fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.card {
+  padding: 20px;
+  border: 1px solid #314050;
+  background: #192431;
+  border-radius: 16px;
+  margin: 16px 0;
+}
+.host-layout > .card { margin: 0; }
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 38px;
+  padding: 0 4px 10px;
+  color: #c7d5e2;
+  font-size: 13px;
+}
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #8b9cad;
+  flex-shrink: 0;
+}
+.dot.live { background: #8de9bb; box-shadow: 0 0 12px #8de9bb80; }
+
+.fields {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 13px;
+}
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: #b7c6d5;
+  font-size: 12px;
+}
+select, input {
+  width: 100%;
+  max-width: 100%;
+  padding: 9px 10px;
+  background: #101923;
+  color: #edf3fa;
+  border: 1px solid #415266;
+  border-radius: 8px;
+}
+button {
+  padding: 9px 14px;
+  border: 1px solid #4b6074;
+  border-radius: 8px;
+  background: #263646;
+  color: #edf3fa;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+}
+button:hover { background: #354b60; }
+button:disabled { opacity: .45; cursor: not-allowed; }
+.primary {
+  background: #9ce6cc;
+  color: #0e2820;
+  border-color: transparent;
+  font-weight: 700;
+}
+.primary:hover { background: #b6f5df; }
+
+.custom-mode {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #314050;
+}
+.custom-mode .fields {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 12px 0 10px;
+}
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.selected-config { font-size: 12px; color: #c3d8e9; }
+
+.pairing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 0;
+}
+.session-card .pairing {
+  padding: 12px;
+  border: 1px solid #314050;
+  border-radius: 12px;
+  background: #131e29;
+}
+.pairing h2 { width: 100%; text-align: left; }
+.pairing-guide {
+  min-height: 42px;
+  margin: 0 0 14px;
+  color: #9eafc0;
+  font-size: 12px;
+}
+.pairing img {
+  display: block;
+  width: 132px;
+  height: 132px;
+  margin: 2px auto 18px;
+  border-radius: 8px;
+  background: white;
+}
+.code-label {
+  color: #9eafc0;
+  font-size: 12px;
+  font-weight: 600;
+}
+.connect-code {
+  min-height: 58px;
+  margin: 5px 0 14px;
+  color: #9ce6cc;
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 9px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.url, code {
+  max-width: 100%;
+  color: #a8bfd4;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 14px 4px 4px;
+}
+.metrics span { display: block; color: #9eafc0; font-size: 12px; }
+.metrics strong { font-size: 17px; overflow-wrap: anywhere; }
+.error, .warning {
+  padding: 12px;
+  border: 1px solid #8c6a40;
+  border-radius: 10px;
+  background: #392d20;
+  color: #ffdcac;
+  overflow-wrap: anywhere;
+}
+.host > main > .error, .host > main > .warning { margin: 0 0 12px; }
+pre { white-space: pre-wrap; font-size: 12px; color: #9eafc0; }
+summary { cursor: pointer; }
+footer { padding: 12px 0; font-size: 12px; }
+[hidden] { display: none !important; }
+
+.viewer { height: 100vh; height: 100dvh; overflow: hidden; background: #000; }
+.viewer video { display: block; width: 100%; height: 100%; object-fit: contain; }
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 32px;
+  background: #101923ed;
+  text-align: center;
+}
+.viewer-login { width: min(420px, 100%); }
+.overlay h1 { font-size: 32px; }
+.code-input {
+  display: block;
+  width: 220px;
+  margin: 10px auto 0;
+  text-align: center;
+  font-size: 42px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.viewer-controls {
+  position: fixed;
+  bottom: max(10px, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 7px 10px;
+  border-radius: 12px;
+  background: #15212de0;
+  opacity: .15;
+  transition: opacity .2s;
+  white-space: nowrap;
+  font-size: 12px;
+}
+.viewer-controls:hover, .viewer-controls:focus-within { opacity: 1; }
+
+@media (pointer: coarse) {
+  .viewer-controls { opacity: .65; }
+}
+@media (max-width: 780px) {
+  main, .host main { padding: 18px; }
+  .host-layout, .fields, .session-layout, .monitor-toolbar { grid-template-columns: 1fr; }
+  .session-settings .fields { grid-template-columns: 1fr; }
+  .metrics { grid-template-columns: 1fr 1fr; }
+  .session-metrics { grid-template-columns: 1fr 1fr; }
+  .overlay h1 { font-size: 26px; }
+}

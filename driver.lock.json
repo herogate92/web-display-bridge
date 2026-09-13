@@ -1,0 +1,18 @@
+{
+  "repository": "https://github.com/VirtualDrivers/Virtual-Display-Driver",
+  "release": "25.7.23",
+  "releaseUrl": "https://github.com/VirtualDrivers/Virtual-Display-Driver/releases/tag/25.7.23",
+  "license": "MIT",
+  "catalogSigner": "SignPath Foundation",
+  "catalogSignerThumbprint": "3CF8CF26D8BA266C3A483AB7D26D4A818E317D76",
+  "control": {
+    "name": "VDD.Control.25.7.23.zip",
+    "url": "https://github.com/VirtualDrivers/Virtual-Display-Driver/releases/download/25.7.23/VDD.Control.25.7.23.zip",
+    "sha256": "a701f2272e9fcf382849b24f913c6dd07597b3b1116525f2e90182f019609154"
+  },
+  "driver": {
+    "name": "VirtualDisplayDriver-x86.Driver.Only.zip",
+    "url": "https://github.com/VirtualDrivers/Virtual-Display-Driver/releases/download/25.7.23/VirtualDisplayDriver-x86.Driver.Only.zip",
+    "sha256": "e24210692b442b39af763536330ce78b423f19342b7a7792c26de3944e418b3a"
+  }
+}

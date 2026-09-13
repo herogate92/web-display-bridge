@@ -1,0 +1,74 @@
+{
+  "name": "web-display-bridge",
+  "version": "0.2.0-alpha.1",
+  "private": true,
+  "description": "Use iPad and Android browsers as Windows virtual extended displays",
+  "author": "herogate92",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/herogate92/web-display-bridge.git"
+  },
+  "homepage": "https://github.com/herogate92/web-display-bridge#readme",
+  "bugs": {
+    "url": "https://github.com/herogate92/web-display-bridge/issues"
+  },
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc && node scripts/build.mjs",
+    "build:native": "node scripts/native-build.mjs",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.browser.json --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "start": "npm run build && electron .",
+    "package": "npm run typecheck && npm run build:native && npm test && npm run build && npm run setup:electron && node scripts/package.mjs",
+    "driver:verify": "node scripts/verify-driver.mjs",
+    "setup:electron": "node node_modules/electron/install.js"
+  },
+  "build": {
+    "appId": "io.github.herogate92.webdisplaybridge",
+    "productName": "WebDisplay Bridge",
+    "electronDist": "node_modules/electron/dist",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "public/**/*",
+      "driver.lock.json",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "native/publish",
+        "to": "native"
+      },
+      {
+        "from": "docs",
+        "to": "docs"
+      }
+    ],
+    "win": {
+      "target": "nsis",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "dependencies": {
+    "qrcode": "1.5.4",
+    "ws": "8.21.3"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.4",
+    "@types/qrcode": "1.5.6",
+    "@types/ws": "8.18.1",
+    "electron": "44.3.0",
+    "electron-builder": "26.15.3",
+    "esbuild": "0.28.2",
+    "tsx": "4.23.13",
+    "typescript": "7.0.2"
+  }
+}

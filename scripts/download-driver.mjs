@@ -1,0 +1,12 @@
+import { mkdir, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+const lock = JSON.parse(readFileSync(new URL('../driver.lock.json', import.meta.url)));
+const asset = process.argv.includes('--control') ? lock.control : lock.driver;
+const response = await fetch(asset.url);
+if (!response.ok) throw new Error(`Download failed: ${response.status}`);
+const data = Buffer.from(await response.arrayBuffer());
+if (createHash('sha256').update(data).digest('hex') !== asset.sha256) throw new Error('SHA-256 mismatch');
+await mkdir('.cache/driver', { recursive: true });
+await writeFile(`.cache/driver/${asset.name}`, data);
+console.log(`Verified download: ${asset.name}`);
