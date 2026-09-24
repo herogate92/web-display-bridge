@@ -1,6 +1,6 @@
 {
   "name": "web-display-bridge",
-  "version": "0.2.0-alpha.1",
+  "version": "0.2.0-alpha.2",
   "private": true,
   "description": "Use iPad and Android browsers as Windows virtual extended displays",
   "author": "herogate92",

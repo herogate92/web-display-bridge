@@ -47,6 +47,10 @@ p { margin: 10px 0; }
 }
 .session-metrics span { display: block; color: #9eafc0; font-size: 11px; }
 .session-metrics strong { font-size: 14px; overflow-wrap: anywhere; }
+.encoding-status { color: #a9bdcf; font-size: 13px; margin: 10px 0 0; }
+.encoding-status[data-kind="hardware"] { color: #9ce6cc; }
+.encoding-status[data-kind="software"] { color: #ffdcac; }
+.encoder-warning { font-size: 13px; margin-bottom: 0; }
 .help-card { margin-top: 16px; }
 .host-layout {
   display: grid;
@@ -73,6 +77,8 @@ p { margin: 10px 0; }
   color: #c7d5e2;
   font-size: 13px;
 }
+.language-control { margin-left: auto; flex-direction: row; align-items: center; gap: 8px; white-space: nowrap; }
+.language-control select, .viewer-controls select { width: auto; min-width: 96px; padding: 6px 8px; }
 .dot {
   width: 9px;
   height: 9px;
@@ -226,6 +232,7 @@ footer { padding: 12px 0; font-size: 12px; }
   text-align: center;
 }
 .viewer-login { width: min(420px, 100%); }
+.viewer-login .language-select { width: 140px; margin: 12px auto 0; }
 .overlay h1 { font-size: 32px; }
 .code-input {
   display: block;
@@ -266,4 +273,9 @@ footer { padding: 12px 0; font-size: 12px; }
   .metrics { grid-template-columns: 1fr 1fr; }
   .session-metrics { grid-template-columns: 1fr 1fr; }
   .overlay h1 { font-size: 26px; }
+}
+@media (max-width: 480px) {
+  .viewer-controls { width: calc(100% - 20px); justify-content: center; flex-wrap: wrap; gap: 6px; white-space: normal; }
+  .viewer-controls span { flex-basis: 100%; text-align: center; }
+  .viewer-controls button, .viewer-controls select { font-size: 11px; padding: 6px; }
 }

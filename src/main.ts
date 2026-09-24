@@ -230,18 +230,18 @@ async function startSession(identity: string, ip: string, chosen: StreamConfig) 
     throw error;
   }
 }
-async function configureMonitorCount(count: number) {
+async function configureMonitorCount(count: number, language: 'ko' | 'en') {
   if (!Number.isSafeInteger(count) || count < 1 || count > 4) throw new Error('가상 모니터 수는 1~4대만 가능합니다.');
   const before = (await helper.list()).filter(display => display.virtual && !display.primary).length;
   if (before === count) return;
   await stopAll('가상 모니터 수 변경을 위해 연결을 종료했습니다.');
   const script = app.isPackaged ? path.join(process.resourcesPath, 'docs', 'set-vdd-monitor-count.ps1') : path.join(app.getAppPath(), 'docs', 'set-vdd-monitor-count.ps1');
-  await runInstaller(script, ['-Count', String(count)]);
+  await runInstaller(script, ['-Count', String(count), '-Language', language]);
   for (let attempt = 0; attempt < 20; attempt++) {
     if ((await helper.list()).filter(display => display.virtual && !display.primary).length === count) return;
     await new Promise(resolve => setTimeout(resolve, 500));
   }
-  try { await runInstaller(script, ['-Count', String(before)]); } catch (rollback) { log('vdd-count-rollback-error', String(rollback)); }
+  try { await runInstaller(script, ['-Count', String(before), '-Language', language]); } catch (rollback) { log('vdd-count-rollback-error', String(rollback)); }
   throw new Error('가상 모니터 수가 적용되지 않아 이전 개수로 복구했습니다.');
 }
 
@@ -291,7 +291,7 @@ if (single) app.whenReady().then(async () => {
   ipcMain.handle('start', (event, identity, ip, chosen) => { trusted(event); return serial(() => startSession(identity, ip, chosen)); });
   ipcMain.handle('stop', (event, identity?: string) => { trusted(event); return serial(() => identity ? stopSession(identity) : stopAll()); });
   ipcMain.handle('recover', event => { trusted(event); return serial(() => stopAll()); });
-  ipcMain.handle('configure-monitor-count', (event, count) => { trusted(event); return serial(() => configureMonitorCount(count)); });
+  ipcMain.handle('configure-monitor-count', (event, count, language) => { trusted(event); return serial(() => configureMonitorCount(count, language === 'en' ? 'en' : 'ko')); });
   ipcMain.handle('ready', (event, sessionId) => {
     trusted(event); const runtime = runtimes.get(sessionId); if (!runtime) return;
     clearTimeout(runtime.captureTimeout); runtime.captureReady = true;
@@ -299,12 +299,12 @@ if (single) app.whenReady().then(async () => {
     server?.requestOffers(sessionId);
   });
   ipcMain.handle('help', event => { trusted(event); return shell.openExternal('https://github.com/VirtualDrivers/Virtual-Display-Driver/releases/tag/25.7.23'); });
-  ipcMain.handle('install-custom-mode', (event, width, height, fps) => { trusted(event); return serial(async () => {
+  ipcMain.handle('install-custom-mode', (event, width, height, fps, language) => { trusted(event); return serial(async () => {
     const chosen = { width, height, fps, bitrate: 1_000_000 };
     if (!validConfig(chosen) || width % 2 || height % 2) throw new Error('가로 640~3840, 세로 480~2160의 짝수와 24~60fps를 입력하세요.');
     await stopAll('사용자 해상도 추가를 위해 전송을 종료했습니다.');
     const script = app.isPackaged ? path.join(process.resourcesPath, 'docs', 'add-ipad9-modes.ps1') : path.join(app.getAppPath(), 'docs', 'add-ipad9-modes.ps1');
-    await runInstaller(script, ['-Width', String(width), '-Height', String(height), '-RefreshRate', String(fps)]);
+    await runInstaller(script, ['-Width', String(width), '-Height', String(height), '-RefreshRate', String(fps), '-Language', language === 'en' ? 'en' : 'ko']);
   }); });
   ipcMain.on('signal', (event, value: unknown) => {
     trusted(event); if (validateSignal(value, 'host') && value.sessionId && runtimes.has(value.sessionId)) server?.send(value);

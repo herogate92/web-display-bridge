@@ -1,14 +1,16 @@
-param(
+﻿param(
     [int]$Width = 0,
     [int]$Height = 0,
-    [int]$RefreshRate = 60
+    [int]$RefreshRate = 60,
+    [ValidateSet('ko', 'en')]
+    [string]$Language = 'ko'
 )
 $ErrorActionPreference = 'Stop'
 $configPath = 'C:\VirtualDisplayDriver\vdd_settings.xml'
 
 $principal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 if (-not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    $arguments = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', ('"' + $PSCommandPath + '"'))
+    $arguments = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', ('"' + $PSCommandPath + '"'), '-Language', $Language)
     if ($Width -gt 0 -or $Height -gt 0) { $arguments += @('-Width', $Width, '-Height', $Height, '-RefreshRate', $RefreshRate) }
     $elevated = Start-Process powershell.exe -Verb RunAs -ArgumentList $arguments -Wait -PassThru
     exit $elevated.ExitCode
@@ -57,9 +59,15 @@ try {
     if ($devices.Count -ne 1) { throw '설치된 Virtual Display Driver 한 대를 찾지 못했습니다. 설정은 저장했으며 재부팅 후 적용됩니다.' }
     $result = & pnputil.exe /restart-device $devices[0].InstanceId 2>&1 | Out-String
     if ($LASTEXITCODE -ne 0) { throw "드라이버 재시작에 실패했습니다. PC 재부팅 후 적용됩니다.`n$result" }
-    $message = if ($Width -gt 0) { "${Width}×${Height} ${RefreshRate}fps 모드를 추가했습니다." } else { '아이패드 9 해상도를 추가했습니다.' }
-    [System.Windows.Forms.MessageBox]::Show("$message`nWebDisplay Bridge에서 다시 확인을 누르세요.`n`n백업: $backup", 'WebDisplay Bridge', 'OK', 'Information') | Out-Null
+    $message = if ($Language -eq 'en') {
+        if ($Width -gt 0) { "Added ${Width}×${Height} ${RefreshRate}fps mode." } else { 'Added iPad 9 resolutions.' }
+    } else {
+        if ($Width -gt 0) { "${Width}×${Height} ${RefreshRate}fps 모드를 추가했습니다." } else { '아이패드 9 해상도를 추가했습니다.' }
+    }
+    $instruction = if ($Language -eq 'en') { "Refresh WebDisplay Bridge.`n`nBackup: $backup" } else { "WebDisplay Bridge에서 다시 확인을 누르세요.`n`n백업: $backup" }
+    [System.Windows.Forms.MessageBox]::Show("$message`n$instruction", 'WebDisplay Bridge', 'OK', 'Information') | Out-Null
 } catch {
-    [System.Windows.Forms.MessageBox]::Show($_.Exception.Message, 'WebDisplay Bridge', 'OK', 'Error') | Out-Null
+    $message = if ($Language -eq 'en') { 'Could not add the resolution. Check the driver installation and administrator access.' } else { $_.Exception.Message }
+    [System.Windows.Forms.MessageBox]::Show($message, 'WebDisplay Bridge', 'OK', 'Error') | Out-Null
     exit 1
 }
